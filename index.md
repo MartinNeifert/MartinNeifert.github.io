@@ -15,4 +15,7 @@
 </html>
 -->
 
+<script src="../p5.min.js"></script>
+<script src="../addons/p5.dom.min.js"></script>
+<script src="../addons/p5.sound.min.js"></script>
 <script src ="{{ site.baseurl | prepend: site.url}}/sketch.js"><\script>
