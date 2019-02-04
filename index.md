@@ -15,4 +15,4 @@
 </html>
 -->
 
-<script src ="{{ site.baseurl}}/sketch.js"><\script>
+<script src ="{{ site.baseurl | prepend: site.url}}sketch.js"><\script>
