@@ -27,7 +27,6 @@
     <script src="{{ base.url | prepend: site.url }}/Creative-p5/assets/Field.js"></script>
     <script src="{{ base.url | prepend: site.url }}/Creative-p5/assets/Particle.js"></script>
     <script src="{{ base.url | prepend: site.url }}/Creative-p5/TriangleTexture/TriangleTexture.js"></script>
-    <script src="{{ base.url | prepend: site.url }}/Creative-p5/TriangleTexture/test.js"></script>
   </head>
   <body>
   </body>
