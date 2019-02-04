@@ -1,4 +1,4 @@
-
+<!--
 <html lang="">
   <head>
     <meta charset="utf-8">
@@ -13,5 +13,6 @@
   <body>
   </body>
 </html>
+-->
 
 <script src ="{{ site.baseurl}}.sketch.js"><\script>
