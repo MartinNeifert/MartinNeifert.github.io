@@ -14,4 +14,4 @@
   </body>
 </html>
 
-{{ site.baseurl}}/sketch.js
+<script src ="{{ site.baseurl}}/sketch.js"><\script>
