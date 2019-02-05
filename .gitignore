@@ -1,1 +1,4 @@
 _site/
+GemFile.lock
+.vscode
+_layouts/default.html
