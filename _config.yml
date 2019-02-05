@@ -1,5 +1,5 @@
 title: marty
-description: Some
+markdown: kramdown
 plugins:
   - "jekyll-github-metadata"
 repository: MartinNeifert/MartinNeifert.github.io
