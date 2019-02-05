@@ -3,3 +3,5 @@ markdown: kramdown
 plugins:
   - "jekyll-github-metadata"
 repository: MartinNeifert/MartinNeifert.github.io
+baseurl: "/MartinNeifert.github.io"
+url: "localhost:4000"
