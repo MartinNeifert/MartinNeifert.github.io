@@ -2,8 +2,8 @@ var rows = 5;
 var cols = 5;
 var fields = new Array(rows * cols)
 var fieldSize = 70
-var xOff = 20
-var yOff = 20
+var xOff = 50
+var yOff = 50
 
 function setup(){
   var canvas = createCanvas(500, 500);
@@ -20,7 +20,6 @@ function setup(){
 
 function draw(){
   translate(mouseX/15 + xOff, mouseY/15 + yOff);
-  applyMatrix(1, 0, 0, 1, mouseX/2000, 0);
   clear();
   for(var i = 0; i < fields.length; i++){
     fields[i].step();
