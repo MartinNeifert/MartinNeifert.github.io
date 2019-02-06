@@ -6,7 +6,8 @@ var xOff = 20
 var yOff = 20
 
 function setup(){
-  createCanvas(1000, 1000);
+  var canvas = createCanvas(500, 500);
+  canvas.parent('sketch0');
   var n = 0;
   
   for(var i = 0; i < rows; i++){
