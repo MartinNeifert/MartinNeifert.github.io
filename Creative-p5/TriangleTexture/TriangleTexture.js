@@ -7,7 +7,7 @@ var yOff = 20
 
 function setup(){
   var canvas = createCanvas(500, 500);
-  canvas.parent('sketch0');
+  canvas.parent('TriangleTexture');
   var n = 0;
   
   for(var i = 0; i < rows; i++){
