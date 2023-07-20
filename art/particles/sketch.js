@@ -96,7 +96,6 @@ function runParticles(particles) {
             particles[i].vel.y * lookAheadPixels + particles[i].pos.y);
         const vectorA = createVector(colorA[0], colorA[1], colorA[2]);
         const distanceA = currentVector.dist(vectorA);
-        const brightnessA = brightness(colorA);
 
         //rotate the angle vector by 5 degrees
         particles[i].vel.rotate(viewAngle);
@@ -105,7 +104,6 @@ function runParticles(particles) {
             particles[i].vel.y * lookAheadPixels + particles[i].pos.y);
         const vectorB = createVector(colorB[0], colorB[1], colorB[2]);
         const distanceB = currentVector.dist(vectorB);
-        const brightnessB = brightness(colorB);
 
         particles[i].vel.rotate(-1 * viewAngle * 2);
         const colorC = previousPixels.get(
@@ -113,37 +111,8 @@ function runParticles(particles) {
             particles[i].vel.y * lookAheadPixels + particles[i].pos.y);
         const vectorC = createVector(colorC[0], colorC[1], colorC[2]);
         const distanceC = currentVector.dist(vectorC);
-        const brightnessC = brightness(colorC);
 
         particles[i].vel.rotate(viewAngle);
-        
-        /*
-        if(brightnessB > brightnessA && brightnessB > brightnessC) {
-            console.log(particles[i].color);
-            console.log(colorB);
-            if(particles[i].color === colorB) {
-                particles[i].vel.rotate(1 * viewAngle);
-                particles[i].vel.rotate(random(-.08, .08));
-            } else {
-                //particles[i].vel.rotate(-.1 * viewAngle);
-                //particles[i].vel.rotate(random(-.08, .08));
-            }
-        }
-        else if(brightnessC > brightnessA && brightnessC > brightnessB){
-            if(particles[i].color === colorC) {
-                particles[i].vel.rotate(-1 * viewAngle);
-                particles[i].vel.rotate(random(-.08, .08));
-            }
-            else {
-                //particles[i].vel.rotate(.1 * viewAngle);
-                //particles[i].vel.rotate(random(-.08, .08));
-            }
-        } else if(brightnessA > brightnessB && brightnessA > brightnessC) {
-            //particles[i].vel.rotate(random(-.1, .1));
-        } else {
-            particles[i].vel.rotate(random(-.3, .3));
-        }
-        */
 
         if(distanceB > distanceA && distanceB > distanceC) {
             particles[i].vel.rotate(1 * viewAngle);
