@@ -1,12 +1,13 @@
 const viewAngle = 0.1
 const lookAheadPixels = 50;
-const velocity = 2;
 
 const settings = {
     numberParticles: 200,
     numberColors: 1,
     fadeFactor: 20,
     particleSize: 10,
+    velocity: 2,
+    followFactor: 1,
 };
 
 function Particle(x, y, color) {
@@ -44,6 +45,18 @@ function randomPositions() {
     }
 }
 
+function randomColors() {
+    colors.length = 0;
+
+    for(let i = 0; i < settings.numberColors; i++) {
+        colors.push(color(random(255), random(255), random(255)));
+    }
+
+    for(let i = 0; i < settings.numberParticles; i++) {
+        particles[i].color = colors[Math.floor(Math.random() * colors.length)];
+    }
+}
+
 function setup() {
     
     init();
@@ -55,10 +68,13 @@ function setup() {
     gui_col.add(settings, 'numberColors', 1, 100).step(1);
     gui_col.add(settings, 'fadeFactor', 1, 100).step(1);
     gui_col.add(settings, 'particleSize', 1, 1000).step(1);
+    gui_col.add(settings, 'velocity', 0, 10);
+    gui_col.add(settings, 'followFactor', 0, 10);
 
-    var obj = { randomPositions:function(){ randomPositions() }};
-
-    gui_col.add(obj,'randomPositions');
+    var randPositions = { randomPositions:function(){ randomPositions() }};
+    var randColors = { randomColors:function(){ randomColors() }};
+    gui_col.add(randPositions,'randomPositions');
+    gui_col.add(randColors,'randomColors');
 }
 
 function draw() {
@@ -122,17 +138,17 @@ function runParticles(particles) {
             particles[i].vel.rotate(-1 * viewAngle);
             particles[i].vel.rotate(random(-.08, .08));
         } else if(distanceA > distanceB && distanceA > distanceC) {
-            particles[i].vel.rotate(random(-.08, .08));
+            particles[i].vel.rotate(random(-.08 * settings.followFactor, .08 * settings.followFactor));
         } else {
             particles[i].vel.rotate(random(-.3, .3));
         }
 
-        particles[i].pos.x += velocity * particles[i].vel.x;
+        particles[i].pos.x += settings.velocity * particles[i].vel.x;
         if(particles[i].pos.x > width || particles[i].pos.x < 0) {
             particles[i].vel.x = -particles[i].vel.x;
         }
 
-        particles[i].pos.y += velocity * particles[i].vel.y;
+        particles[i].pos.y += settings.velocity * particles[i].vel.y;
         if(particles[i].pos.y > height || particles[i].pos.y < 0) {
             particles[i].vel.y = -particles[i].vel.y;
         }
