@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- link to main stylesheet -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+        <script src="https://cdn.tutorialjinni.com/victor/1.1.0/victor.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js" integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
 
     <div class="container mt-5 pl-5 float-left">
@@ -23,11 +26,28 @@
         <div>
             <div class="row align-items-start">
                 <div class="col"></div>
-                <div class="col">
+                <div class="col" style="margin: auto;">
                     <a href="art/particles/index.html"><h2>Particles</h2></a>
                 </div>
-                <div class="col-md-3 col-sm-4">
+                <meta name="numberParticles" content="200" />
+                <meta name="velocity" content="0.5" />
+                <meta name="particleSize" content="3" />
+                <meta name="fadeFactor" content="27" />
+                <meta name="numberColors" content="3" />
+                <meta name="followFactor" content="0" />
+                <meta name="showDatGui" content="false" />
+                <div class="col" id="sketch" style="height:200px; width:400px;">
+                    <script src="art/particles/sketch.js"></script>
                 </div>
+        </div>
+        <div class="row align-items-start">
+            <div class="col"></div>
+            <div class="col" style="margin: auto;">
+                <a href="art/particles/index.html"><h2>L-Systems</h2></a>
+            </div>
+            <div class="col" id="sketch2" style="height:200px; width:400px;">
+                <script src="art/l-systems/sketch.js"></script>
+            </div>
         </div>
     </div>
     <!-- Optional JavaScript -->
