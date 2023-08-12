@@ -8,7 +8,7 @@ const forceFactor = 0.3;
 const settings = {
     repulsion: 20,
     inertia: 1,
-    forceFactor: 0.2,
+    dt: 0.01,
 
     // refresh settings
     seed: 1,
@@ -20,7 +20,7 @@ const gui = new dat.GUI();
 
 gui.add(settings, 'repulsion', .1, 100).step(.1);
 gui.add(settings, 'inertia', .1, 10).step(.01);
-gui.add(settings, 'forceFactor', .001, 1).step(.001);
+gui.add(settings, 'dt', .0001, .1).step(.0001);
 
 const refreshSettings = gui.addFolder('refresh settings')
 refreshSettings.add(settings, 'seed', 1, 100).step(1);
@@ -54,7 +54,7 @@ function init() {
         {size:[settings.numberColors,settings.numberColors], format:'r16f', tag:'F'});
 
         
-    points = glsl({}, {size:[100,200], story:2000,
+    points = glsl({}, {size:[100,100], story:3,
                 format:'rgba32f', tag:'points'});
     
 
@@ -67,7 +67,7 @@ function init() {
 
 function step() {
     for (let i=0; i<1; ++i)
-    glsl({F, worldExtent, repulsion: settings.repulsion/10, inertia: settings.inertia / 10, dt: settings.forceFactor, past: points[1], 
+    glsl({F, worldExtent, repulsion: settings.repulsion/10, inertia: settings.inertia / 10, dt: settings.dt, past: points[1], 
     FP:`
     vec3 wrap(vec3 p) {
         return (fract(p/worldExtent+0.5)-0.5)*worldExtent;
@@ -80,15 +80,20 @@ function step() {
             vec4 data1 = Src(ivec2(x,y));
             vec3 dpos = wrap(data1.xyz-FOut.xyz);
             float r = length(dpos);
-            if (r>3.0) continue;
             dpos /= r+1e-8;
-            float rep = max(1.0-r, 0.0)*repulsion;
-            float f = F(ivec2(FOut.w, data1.w)).x;
-            float att = f*max(1.0-abs(r-2.0), 0.0);
-            force += dpos*(att-rep);
+            if (x == y || r>3.0) {
+                continue;
+            } else if(r < 0.3){
+                force += dpos * (r / 0.3 - 20.0);
+            } else {
+                float f = F(ivec2(FOut.w, data1.w)).x;
+                //float att = f*max(1.0-abs(r-2.0), 0.0);
+                float att = f*(1.0-abs(2.0*r-1.0-0.3) / (1.0-0.3));
+                force += dpos*(att);
+            }
         }
-        FOut.xyz = wrap(FOut.xyz+0.5*force*(dt*dt));
-
+        vec3 vel = wrap(FOut.xyz-past(I).xyz);
+        FOut.xyz = wrap(FOut.xyz + vel * 0.95 + 0.5 * force * dt * dt);
     }
     `}, points);
 }
