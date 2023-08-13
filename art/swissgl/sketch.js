@@ -1,6 +1,7 @@
 (function() {
 const canvas = document.getElementById('sketch3');
 const glsl = SwissGL(canvas);
+canvas.getContext("webgl", {alpha: false} );
 
 const worldExtent = 70.0;
 const forceFactor = 0.3;
@@ -12,7 +13,6 @@ const settings = {
     // refresh settings
     seed: 1,
     numberColors: 3,
-    numberParticles: 1000,
 }
 
 const gui = new dat.GUI();
@@ -23,13 +23,14 @@ gui.add(settings, 'dt', .0001, .1).step(.0001);
 const refreshSettings = gui.addFolder('refresh settings')
 refreshSettings.add(settings, 'seed', 1, 100).step(1);
 refreshSettings.add(settings, 'numberColors', 1, 100).step(1);
-refreshSettings.add(settings, 'numberParticles', 10, 10000).step(10);
 refreshSettings.add({refresh: function() {
     init();
 }}, 'refresh');
 refreshSettings.open();
 
 let showDatGui = document.getElementsByName("showDatGui")[0];
+let sketch3_dark = document.getElementsByName("sketch3_dark")[0].content === "true";
+
 if(showDatGui && showDatGui.content == "false") {
     gui.hide();
 } else {
@@ -37,7 +38,6 @@ if(showDatGui && showDatGui.content == "false") {
 }
 
 var F;
-
 var points;
 
 
@@ -99,6 +99,14 @@ function step() {
 
 function draw() {
     step();
+    !sketch3_dark && glsl({ // pass uniform 't' to GLSL
+            Mesh:[10, 10],  // draw a 10x10 tessellated plane mesh
+            // Vertex shader expression returns vec4 vertex position in
+            // WebGL clip space. 'XY' and 'UV' are vec2 input vertex 
+            // coordinates in [-1,1] and [0,1] ranges.
+            VP:`XY,0,1`,
+            // Fragment shader returns 'RGBA'
+            FP:`1.0,1,1,1`});
     glsl({numberColors: settings.numberColors, worldExtent, points: points[0], Grid: points[0].size,
             Aspect:'cover', Blend: 'd*(1-sa)+s*sa', Inc:`
         varying vec3 color;`, 
@@ -106,7 +114,7 @@ function draw() {
         vec4 d = points(ID.xy);
         color = cos((d.w/numberColors+vec3(0,0.33,0.66))*TAU)*0.5+0.5;
         VPos.xy = 2.0*(d.xy+XY/8.0)/worldExtent;`, 
-        FP:`color, smoothstep(1.0, 0.1, length(XY))`});
+        FP:`color, smoothstep(1.0, 0.5, length(XY))`});
     requestAnimationFrame(draw);
 }
 init();
