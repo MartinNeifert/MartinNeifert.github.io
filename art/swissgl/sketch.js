@@ -6,20 +6,18 @@ const worldExtent = 70.0;
 const forceFactor = 0.3;
 
 const settings = {
-    repulsion: 20,
-    inertia: 1,
+    repulsion: 1,
     dt: 0.01,
 
     // refresh settings
     seed: 1,
-    numberColors: 4,
+    numberColors: 3,
     numberParticles: 1000,
 }
 
 const gui = new dat.GUI();
 
-gui.add(settings, 'repulsion', .1, 100).step(.1);
-gui.add(settings, 'inertia', .1, 10).step(.01);
+gui.add(settings, 'repulsion', .01, 20);
 gui.add(settings, 'dt', .0001, .1).step(.0001);
 
 const refreshSettings = gui.addFolder('refresh settings')
@@ -29,6 +27,7 @@ refreshSettings.add(settings, 'numberParticles', 10, 10000).step(10);
 refreshSettings.add({refresh: function() {
     init();
 }}, 'refresh');
+refreshSettings.open();
 
 let showDatGui = document.getElementsByName("showDatGui")[0];
 if(showDatGui && showDatGui.content == "false") {
@@ -67,7 +66,7 @@ function init() {
 
 function step() {
     for (let i=0; i<1; ++i)
-    glsl({F, worldExtent, repulsion: settings.repulsion/10, inertia: settings.inertia / 10, dt: settings.dt, past: points[1], 
+    glsl({F, worldExtent, repulsion: settings.repulsion, dt: settings.dt, past: points[1], 
     FP:`
     vec3 wrap(vec3 p) {
         return (fract(p/worldExtent+0.5)-0.5)*worldExtent;
@@ -84,7 +83,7 @@ function step() {
             if (x == y || r>3.0) {
                 continue;
             } else if(r < 0.3){
-                force += dpos * (r / 0.3 - 20.0);
+                force += dpos * (r / 0.3 - (10.0 * repulsion));
             } else {
                 float f = F(ivec2(FOut.w, data1.w)).x;
                 //float att = f*max(1.0-abs(r-2.0), 0.0);
